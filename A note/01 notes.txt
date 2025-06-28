@@ -36,6 +36,12 @@ Install csurf to protect from CSRF attack
 Install 3rd party package for handling session
 1. npm install express-session connect-mongodb-session
 
+install multer for handling file upload
+1. npm install --save multer
+
+install unique identifiers
+1. npm install uuid
+
 ===========
 app.js file
 ===========

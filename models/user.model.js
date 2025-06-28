@@ -16,7 +16,18 @@ class User {            //method that will call automatically when you create an
             city: city
         };
     }
-    
+    getUserWithSameEmail() {
+         return db.getDb().collection('users').findOne({ email: this.email });
+    }
+
+    async existsAlready() {
+        const existingUser = await this.getUserWithSameEmail();
+        if (existingUser){
+            return true;
+        }
+        return false;
+    }
+
     // store the property in the database
     async signup() {
         // hash password
@@ -29,6 +40,10 @@ class User {            //method that will call automatically when you create an
             name: this.name,
             address: this.address
         });
+    }
+
+    hasMatchingPassword(hashedPassword) {
+        return bcrypt.compare(this.password, hashedPassword);
     }
 }
 

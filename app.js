@@ -15,13 +15,19 @@ const createrSessionConfig = require('./config/session');
 // require import database object 
 const db = require('./data/database');
 
-// import add csrftoken 
+// import middlewares add csrftoken, error handler, check successful login, protect route for administration purpose, cart
 const addCsrfTokenMiddleware = require('./middlewares/csrf-token');
-
-// import error handler 
 const errorHandlerMiddleware = require('./middlewares/error-handler');
-// require import auth.routes (custom files) 
+const checkAuthStatusMiddleware = require('./middlewares/check-auth');
+const protectRoutesMiddleware = require('./middlewares/protect-routes');
+const cartMiddleware = require('./middlewares/cart');
+
+// require import auth.routes / product.routes / base.routes(custom files) / cart routes
 const authRoutes = require('./routes/auth.routes');
+const productsRoutes = require('./routes/products.routes');
+const baseRoutes = require('./routes/base.routes');
+const adminRoutes = require('./routes/admin.routes');
+const cartRoutes = require('./routes/cart.routes');
 
 // derive app object as function
 const app = express();
@@ -30,13 +36,17 @@ const app = express();
 app.set('view engine', 'ejs');
 
 // define the path on view, using __dirname global variable is path to current project folder
-app.set('views',path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
 
 // define name of the static folder to be accessible to public
 app.use(express.static('public'));
+app.use('/products/assets', express.static('product-data')); // only req start with /products/assets will be handled
 
-// handing data attached to request
-app.use(express.urlencoded({ extended: false}));
+// handing data attached to request, handle data during form submission
+app.use(express.urlencoded({ extended: false }));
+
+// return the middleware function for json data
+app.use(express.json());
 
 // activate express
 const sessionConfig = createrSessionConfig();
@@ -47,21 +57,33 @@ app.use(expressSession(sessionConfig));
 // activate csrf as middleware - should be before a request reach the route
 app.use(csrf());
 
-// activate middileware
+// activate cart middleware
+app.use(cartMiddleware);
+
+// activate csrf middileware
 app.use(addCsrfTokenMiddleware);
 
+// check auth status
+app.use(checkAuthStatusMiddleware);
+
 // use app.use to add middleware for every incoming request
+app.use(baseRoutes);
 app.use(authRoutes);
+app.use(productsRoutes);
+app.use('/cart', cartRoutes); // only prefix with cart will only be triggered
+
+app.use(protectRoutesMiddleware);
+app.use('/admin', adminRoutes); // only admin will only be triggered
 
 // add error handling middleware
 app.use(errorHandlerMiddleware);
 
 db.connecToDatabse()
-    .then(function() {
+    .then(function () {
         // listening to port
         app.listen(3000);
-    }).catch(function(error) {
-        console.log('Failed to connect to the database!')    
+    }).catch(function (error) {
+        console.log('Failed to connect to the database!')
         console.log(error);
     }); // then if succeed, catch if error
 

@@ -16,6 +16,11 @@ router.post('/signup', authController.signup);
 // serve login page
 router.get('/login', authController.getLogin);
 
+// post / trigger login
+router.post('/login',authController.login);
+
+// post / trigger logout
+router.post('/logout', authController.logout);
 
 // features objects that should be expose to other file
 module.exports = router;
