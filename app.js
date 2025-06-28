@@ -41,6 +41,7 @@ app.use(express.urlencoded({ extended: false}));
 // activate express
 const sessionConfig = createrSessionConfig();
 
+// initialize the session
 app.use(expressSession(sessionConfig));
 
 // activate csrf as middleware - should be before a request reach the route
