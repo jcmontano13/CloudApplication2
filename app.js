@@ -21,6 +21,8 @@ const errorHandlerMiddleware = require('./middlewares/error-handler');
 const checkAuthStatusMiddleware = require('./middlewares/check-auth');
 const protectRoutesMiddleware = require('./middlewares/protect-routes');
 const cartMiddleware = require('./middlewares/cart');
+const updateCartPricesMiddleware = require('./middlewares/update-cart-prices');
+const notFoundMiddleware = require('./middlewares/not-found');
 
 // require import auth.routes / product.routes / base.routes(custom files) / cart routes / order routes
 const authRoutes = require('./routes/auth.routes');
@@ -61,6 +63,9 @@ app.use(csrf());
 // activate cart middleware
 app.use(cartMiddleware);
 
+// activate update cart prices middleware
+app.use(updateCartPricesMiddleware);
+
 // activate csrf middileware
 app.use(addCsrfTokenMiddleware);
 
@@ -72,11 +77,10 @@ app.use(baseRoutes);
 app.use(authRoutes);
 app.use(productsRoutes);
 app.use('/cart', cartRoutes); // only prefix with cart will only be triggered
+app.use('/orders', protectRoutesMiddleware, orderRoutes);  // only orders will be triggerd
+app.use('/admin', protectRoutesMiddleware, adminRoutes); // only admin will only be triggered
 
-app.use(protectRoutesMiddleware);
-app.use('/orders', orderRoutes);  // only orders will be triggerd
-app.use('/admin', adminRoutes); // only admin will only be triggered
-
+app.use(notFoundMiddleware);
 
 // add error handling middleware
 app.use(errorHandlerMiddleware);

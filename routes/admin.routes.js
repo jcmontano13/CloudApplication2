@@ -21,5 +21,9 @@ router.post('/products/:id', imageUploadMiddleware, adminController.updateUprodu
 
 router.delete('/products/:id', adminController.deleteProduct); // delete method
 
+router.get('/orders', adminController.getOrders);
+
+router.patch('/orders/:id', adminController.updateOrder);
+
 // features objects that should be expose to other file
 module.exports = router;
