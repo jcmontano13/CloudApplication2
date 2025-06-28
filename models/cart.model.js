@@ -15,7 +15,7 @@ class Cart {
         for (let i = 0; i < this.items.length; i++) {
             const item = this.items[i];
             if (item.product.id === product.id) { // check if product is already in the cart    
-                cartItem.quantity = item.quantity + 1;
+                cartItem.quantity = +item.quantity + 1; // included '+' in the begining to force the var into number instead of concat
                 cartItem.totalPrice = item.totalPrice + product.price;
                 this.items[i] = cartItem;
 
