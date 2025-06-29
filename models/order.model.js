@@ -80,9 +80,7 @@ class Order {
                 date: new Date(),
                 status: this.status
             };
-            console.dir(orderDocument);
-            console.dir(this.userData);
-            console.dir(this.productData);
+
             return db.getDb().collection('orders').insertOne(orderDocument);
         }
     }
