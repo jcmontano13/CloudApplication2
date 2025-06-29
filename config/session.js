@@ -2,10 +2,13 @@ const mongoDbStore = require('connect-mongodb-session');
 const expressSession = require('express-session');
 // require('dotenv').config(); // For local development only, to load .env file
 
+// const MONGODB_URI = process.env.MONGODB_URI;
 function createSessionStore() {
     const MongoDBStore = mongoDbStore(expressSession);
 
-    const MONGODB_URI = process.env.MONGODB_URI;
+    let MONGODB_URI = 'mongodb+srv://jeckmontano:kvnFhz0wG80U2laY@cluster0.pekijnr.mongodb.net/';
+    // let MONGODB_URI = 'mongodb+srv://jeckmontano:kvnFhz0wG80U2laY@cluster0.pekijnr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+    // const MONGODB_URI = process.env.MONGODB_URI;
     // const MONGODB_URI = 'mongodb://localhost:27017';
     console.log('---- starting db -----');
     console.log('connecting:' + MONGODB_URI);
