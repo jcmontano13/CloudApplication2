@@ -85,10 +85,11 @@ app.use(notFoundMiddleware);
 // add error handling middleware
 app.use(errorHandlerMiddleware);
 
+const PORT = process.env.PORT // || 3000; // Use port 3000 for local development if PORT not set
 db.connecToDatabse()
     .then(function () {
         // listening to port
-        app.listen(3000);
+        app.listen(PORT);
     }).catch(function (error) {
         console.log('Failed to connect to the database!')
         console.log(error);
