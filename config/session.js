@@ -1,14 +1,26 @@
-const express = require('express');  // for mongodb atlas 
 const mongoDbStore = require('connect-mongodb-session');
 const expressSession = require('express-session');
+// require('dotenv').config(); // For local development only, to load .env file
 
 function createSessionStore() {
     const MongoDBStore = mongoDbStore(expressSession);
 
+    const MONGODB_URI = process.env.MONGODB_URI;
+    // const MONGODB_URI = 'mongodb://localhost:27017';
+    if (!MONGODB_URI) {
+        console.error('ERROR: MONGODB_URI environment variable is not set.');
+        process.exit(1); // Exit if critical variable is missing
+    }
+
     const store = new MongoDBStore({
-        uri: 'mongodb://localhost:27017',
+        uri: MONGODB_URI,
         getDb: 'online-shop',
         collection: 'sessions'
+    });
+
+    // Handle connection errors for the session store
+    store.on('error', function (error) {
+        console.error('MongoDB Session Store Error:', error);
     });
 
     return store;
@@ -16,7 +28,8 @@ function createSessionStore() {
 
 function createSessionConfig() {
     return {
-        secret: 'super-secret',
+        // secret: 'super-secret',
+        secret: process.env.SESSION_SECRET || 'super-secret',
         resave: false,
         saveUninitialized: false,
         store: createSessionStore(),
