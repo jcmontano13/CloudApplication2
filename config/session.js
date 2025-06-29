@@ -7,6 +7,7 @@ function createSessionStore() {
 
     const MONGODB_URI = process.env.MONGODB_URI;
     // const MONGODB_URI = 'mongodb://localhost:27017';
+    console.log(MONGODB_URI);
     if (!MONGODB_URI) {
         console.error('ERROR: MONGODB_URI environment variable is not set.');
         process.exit(1); // Exit if critical variable is missing
