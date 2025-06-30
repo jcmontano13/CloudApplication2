@@ -9,7 +9,7 @@ let database;
 async function connecToDatabse() {
     // const client = await MongoClient.connect('mongodb://localhost:27017'); // default port
     // const MONGODB_URI = process.env.MONGODB_URI;
-    const client = await MongoClient.connect('mongodb+srv://jeckmontano:kvnFhz0wG80U2laY@cluster0.pekijnr.mongodb.net/'); // default port
+    const client = await MongoClient.connect('mongodb+srv://jeckmontano:kvnFhz0wG80U2laY@cluster0.pekijnr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'); // default port
     // const client = await MongoClient.connect(MONGODB_URI); // default port
     database = client.db('online-shop');
 }

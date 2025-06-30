@@ -6,8 +6,8 @@ const expressSession = require('express-session');
 function createSessionStore() {
     const MongoDBStore = mongoDbStore(expressSession);
 
-    let MONGODB_URI = 'mongodb+srv://jeckmontano:kvnFhz0wG80U2laY@cluster0.pekijnr.mongodb.net/';
-    // let MONGODB_URI = 'mongodb+srv://jeckmontano:kvnFhz0wG80U2laY@cluster0.pekijnr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+    // const MONGODB_URI = 'mongodb+srv://jeckmontano:kvnFhz0wG80U2laY@cluster0.pekijnr.mongodb.net/';
+    const MONGODB_URI = 'mongodb+srv://jeckmontano:kvnFhz0wG80U2laY@cluster0.pekijnr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
     // const MONGODB_URI = process.env.MONGODB_URI;
     // const MONGODB_URI = 'mongodb://localhost:27017';
     console.log('---- starting db -----');
